@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF Skin Tool</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page {
+            display: none;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Page 1 Styling */
+        #page1 {
+            background-color: #8b0000;
+            border-radius: 12px;
+            padding: 40px 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        #page1 h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px #000;
+        }
+
+        /* Image Space on Page 1 */
+        .page1-image-container {
+            width: 100%;
+            max-width: 250px;
+            height: 200px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #1e1e1e;
+        }
+
+        .page1-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .blue-btn {
+            background-color: #0066cc;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+
+        .blue-btn:hover {
+            background-color: #004C99;
+        }
+
+        /* Input Styling */
+        .password-container {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 80%;
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Free Fire Version Selection Cards */
+        .version-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 350px;
+            margin-top: 20px;
+        }
+
+        .version-box {
+            background-color: #1e1e1e;
+            border: 2px solid #0066cc;
+            border-radius: 8px;
+            padding: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+
+        .version-box:hover {
+            background-color: #0066cc;
+            color: #fff;
+        }
+
+        /* 20 Boxes Grid Styling - CHANGED TO SINGLE COLUMN FOR BIGGER IMAGES */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .item-box {
+            background-color: #1e1e1e;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .item-box img {
+            width: 100%;
+            max-height: 350px;
+            object-fit: contain;
+            border-radius: 5px;
+            background-color: #000;
+        }
+
+        .claim-btn {
+            background-color: #ffcc00;
+            color: #000;
+            border: none;
+            padding: 12px 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+        }
+
+        .claim-btn:hover {
+            background-color: #e6b800;
+        }
+
+        /* Quiz Page Options */
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 20px;
+        }
+
+        .quiz-opt {
+            background-color: #1e1e1e;
+            border: 2px solid #444;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: left;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .quiz-opt.correct {
+            background-color: #2e7d32 !important;
+            border-color: #4caf50 !important;
+            color: #fff !important;
+        }
+
+        .quiz-opt.wrong {
+            background-color: #c62828 !important;
+            border-color: #ef5350 !important;
+            color: #fff !important;
+        }
+
+        /* Generic Card Container */
+        .form-card {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-card label {
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .success-message {
+            font-size: 1.5rem;
+            color: #4CAF50;
+            line-height: 1.5;
+        }
+
+        .fail-message {
+            font-size: 1.5rem;
+            color: #ff3333;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PAGE 1: ENTRY PAGE -->
+    <div id="page1" class="page active">
+        <h1>FF SKIN TOOL</h1>
+        
+        <!-- PAGE 1 IMAGE SPACE (REPLACED SKULL) -->
+        <div class="page1-image-container">
+            <img src="C:\Users\ADMIN\Downloads\Gemini_Generated_Image_hncscghncscghncs.png" alt="FF Skin Tool Logo">
+        </div>
+
+        <div class="password-container">
+            <input type="text" id="passwordInput" placeholder="Enter Password">
+            <button class="blue-btn" onclick="checkPassword()">Proceed</button>
+        </div>
+    </div>
+
+    <!-- PAGE 2: VERSION SELECTION -->
+    <div id="page2" class="page">
+        <h2>Select Version</h2>
+        <div class="version-container">
+            <div class="version-box" onclick="selectVersion()">Free Fire</div>
+            <div class="version-box" onclick="selectVersion()">Free Fire Max</div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: 20 BOXES WITH IMAGE PLACESHOLDERS -->
+    <div id="page3" class="page">
+        <h2>Select an Item</h2>
+        <div class="grid-container">
+
+            <!-- Box 1 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\S1.jpg" alt="Skin 1">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 2 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\S1 GOLDEN.jpg" alt="Skin 2">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 3 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\S2.jpg" alt="Skin 3">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 4 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\S2 GOLDEN.webp" alt="Skin 4">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 5 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\BREAK DANCER.webp" alt="Skin 5">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 6 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\ARTIC BLUE.jpg" alt="Skin 6">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 7 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\COMBINATION 1.jpg" alt="Skin 7">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 8 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\CRIMINAL.jpg" alt="Skin 8">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 9 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\CRIMINAL GREEN.jpg" alt="Skin 9">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 10 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\PURPLE SHADE.jpg" alt="Skin 10">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 11 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\GOLDEN SHADE.jpg" alt="Skin 11">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 12 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\COMBO 2.jpg" alt="Skin 12">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 13 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\COMBO 3.jpg" alt="Skin 13">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 14 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\COMBO 4.jpg" alt="Skin 14">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 15 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\COMBO 5.jpg" alt="Skin 15">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 16 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\COMBO 7.jpg" alt="Skin 16">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 17 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\EMOTE 1.jpg" alt="Skin 17">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 18 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\EMOTE 2.jpg" alt="Skin 18">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 19 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\EMOTE 3.jpg"alt="Skin 19">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+            <!-- Box 20 -->
+            <div class="item-box">
+                <img src="C:\Users\ADMIN\Downloads\DIAMOND.png" alt="Skin 20">
+                <button class="claim-btn" onclick="openQuizPage()">Claim</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PAGE 4: QUIZ PAGE -->
+    <div id="pageQuiz" class="page">
+        <h2 style="margin-bottom: 10px;">Who have made the game free fire?</h2>
+        <div class="quiz-container">
+            <button class="quiz-opt" id="optA" onclick="checkAnswer('A')">A. Raistar</button>
+            <button class="quiz-opt" id="optB" onclick="checkAnswer('B')">B. KRAFTON</button>
+            <button class="quiz-opt" id="optC" onclick="checkAnswer('C')">C. Sony</button>
+            <button class="quiz-opt" id="optD" onclick="checkAnswer('D')">D. Garena</button>
+        </div>
+    </div>
+
+    <!-- PAGE: WRONG ANSWER SCREEN -->
+    <div id="pageWrong" class="page">
+        <div class="form-card">
+            <p class="fail-message">WRONG ANSWER<br>sorry you can't get in</p>
+        </div>
+    </div>
+
+    <!-- PAGE 5: UID ENTRY PAGE -->
+    <div id="pageUid" class="page">
+        <div class="form-card">
+            <label for="uidInput">UID</label>
+            <input type="number" id="uidInput" placeholder="Enter your UID" style="margin-bottom: 15px;">
+            <button class="blue-btn" style="width: 100%;" onclick="submitUid()">Proceed</button>
+        </div>
+    </div>
+
+    <!-- PAGE 6: SUCCESS / CONGRATULATIONS PAGE -->
+    <div id="pageSuccess" class="page">
+        <div class="form-card">
+            <p class="success-message">congratulations!this item will come in your mail box in 24 hours</p>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === 'JODFFX') {
+                showPage('page2');
+            } else {
+                alert('Incorrect Password!');
+            }
+        }
+
+        function selectVersion() {
+            showPage('page3');
+        }
+
+        function openQuizPage() {
+            document.querySelectorAll('.quiz-opt').forEach(btn => {
+                btn.className = 'quiz-opt';
+                btn.disabled = false;
+            });
+            showPage('pageQuiz');
+        }
+
+        function checkAnswer(selectedOption) {
+            const optA = document.getElementById('optA');
+            const optB = document.getElementById('optB');
+            const optC = document.getElementById('optC');
+            const optD = document.getElementById('optD');
+
+            document.querySelectorAll('.quiz-opt').forEach(btn => btn.disabled = true);
+
+            if (selectedOption === 'D') {
+                optD.classList.add('correct');
+                optA.classList.add('wrong');
+                optB.classList.add('wrong');
+                optC.classList.add('wrong');
+
+                setTimeout(() => {
+                    showPage('pageUid');
+                }, 1200);
+            } else {
+                optA.classList.add('wrong');
+                optB.classList.add('wrong');
+                optC.classList.add('wrong');
+                optD.classList.add('correct');
+
+                setTimeout(() => {
+                    showPage('pageWrong');
+                }, 1200);
+            }
+        }
+
+        function submitUid() {
+            const uid = document.getElementById('uidInput').value;
+            if (uid.trim() === '') {
+                alert('Please enter a valid UID');
+                return;
+            }
+            showPage('pageSuccess');
+        }
+    </script>
+</body>
+</html>
